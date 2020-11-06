@@ -57,4 +57,5 @@ public class Panel extends JPanel {
     public void clear() {
         raster.clear();
     }
+
 }

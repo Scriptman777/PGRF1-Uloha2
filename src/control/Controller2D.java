@@ -2,8 +2,10 @@ package control;
 
 import fill.SeedFill;
 import model.Point;
+import model.Polygon;
 import rasterize.*;
 import view.Panel;
+import view.Window;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -11,21 +13,49 @@ import java.awt.event.*;
 public class Controller2D implements Controller {
 
     private final Panel panel;
+    private final Window window;
     private SeedFill seedFill;
+
+    private Polygon polygon;
 
     private int x,y;
     private LineRasterizerGraphics rasterizer;
+    private PolygonRasterizer polyRasterizer;
 
-    public Controller2D(Panel panel) {
-        this.panel = panel;
+    public Controller2D(Window window) {
+        this.window = window;
+        this.panel = window.getPanel();
+
         initObjects(panel.getRaster());
         initListeners(panel);
+        initInputs();
     }
 
     public void initObjects(Raster raster) {
         seedFill = new SeedFill(raster);
         rasterizer = new LineRasterizerGraphics(raster);
+        polyRasterizer = new PolygonRasterizer(raster);
+        polygon = new Polygon();
      }
+
+     public void initInputs() {
+        panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("C"), "clear");
+        panel.getActionMap().put("clear",clear);
+     }
+
+     //ACTIONS
+    /*
+    Pokud má správně fungovat menu a mazání klávesou C, není možné použít KeyListener.
+    KeyListener musí mít focus, který však mají tlačitka v menu.
+     */
+
+    Action clear = new AbstractAction() {
+        public void actionPerformed(ActionEvent e) {
+            hardClear();
+        }
+    };
+
+
 
     @Override
     public void initListeners(Panel panel) {
@@ -38,14 +68,22 @@ public class Controller2D implements Controller {
                 if (e.isShiftDown()) {
                     //TODO
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
-                    rasterizer.drawLine(x,y,e.getX(),e.getY());
-                    x = e.getX();
-                    y = e.getY();
+
+                    if (window.getRadioNewPoly().isSelected()) {
+                        polygon.points.add(new Point(e.getX(),e.getY()));
+                        update();
+                        polyRasterizer.drawPolygon(polygon);
+                    } else if(window.getRadioFill().isSelected()) {
+                        seedFill.setSeed(new Point(e.getX(),e.getY()));
+                        seedFill.fill();
+                    }
+
+
+
                 } else if (SwingUtilities.isMiddleMouseButton(e)) {
                     //TODO
                 } else if (SwingUtilities.isRightMouseButton(e)) {
-                    seedFill.setSeed(new Point(e.getX(),e.getY()));
-                    seedFill.fill();
+
                 }
             }
 
@@ -79,15 +117,7 @@ public class Controller2D implements Controller {
             }
         });
 
-        panel.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                // na klávesu C vymazat plátno
-                if (e.getKeyCode() == KeyEvent.VK_C) {
-                    //TODO
-                }
-            }
-        });
+
 
         panel.addComponentListener(new ComponentAdapter() {
             @Override
@@ -99,13 +129,12 @@ public class Controller2D implements Controller {
     }
 
     private void update() {
-//        panel.clear();
-        //TODO
-
+        panel.clear();
     }
 
     private void hardClear() {
         panel.clear();
+        polygon = new Polygon();
     }
 
 }
