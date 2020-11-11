@@ -13,6 +13,7 @@ public class Clipper {
         Vertex(Vertex vertex) {
             this.x = vertex.x;
             this.y = vertex.y;
+
         }
 
     }

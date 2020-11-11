@@ -65,12 +65,15 @@ public class Line {
     }
 
     public boolean isIntercection(int y) {
-        return ((y>=y1) && (y<=y2));
+        return ((y<=y1) && (y>=y2));
 
     }
 
     public int getIntersection(int y) {
-        return 0; //x=ky+q;
+        double t = (y - y2)/(double)(y1 - y2);
+        int x = (int)((1-t)*x2+t*x1);
 
+
+        return x;
     }
 }

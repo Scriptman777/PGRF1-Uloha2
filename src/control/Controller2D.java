@@ -1,5 +1,6 @@
 package control;
 
+import fill.ScanLine;
 import fill.SeedFill;
 import model.Point;
 import model.Polygon;
@@ -46,7 +47,7 @@ public class Controller2D implements Controller {
      //ACTIONS
     /*
     Pokud má správně fungovat menu a mazání klávesou C, není možné použít KeyListener.
-    KeyListener musí mít focus, který však mají tlačitka v menu.
+    KeyListener musí mít focus, který však mají tlačitka v menu po kliknutí.
      */
 
     Action clear = new AbstractAction() {
@@ -74,8 +75,19 @@ public class Controller2D implements Controller {
                         update();
                         polyRasterizer.drawPolygon(polygon);
                     } else if(window.getRadioFill().isSelected()) {
+
+
                         seedFill.setSeed(new Point(e.getX(),e.getY()));
                         seedFill.fill();
+
+
+
+                        /*
+                        ScanLine sl = new ScanLine(polygon,rasterizer,0xffff00,0xffffff);
+                        sl.fill();
+
+                         */
+
                     }
 
 
