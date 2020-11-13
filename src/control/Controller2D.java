@@ -1,7 +1,9 @@
 package control;
 
+import clip.Clipper;
 import fill.ScanLine;
 import fill.SeedFill;
+import fill.SeedFillBorder;
 import model.Point;
 import model.Polygon;
 import rasterize.*;
@@ -9,6 +11,7 @@ import view.Panel;
 import view.Window;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class Controller2D implements Controller {
@@ -18,6 +21,7 @@ public class Controller2D implements Controller {
     private SeedFill seedFill;
 
     private Polygon polygon;
+    private Polygon clipPolygon;
 
     private int x,y;
     private LineRasterizerGraphics rasterizer;
@@ -37,6 +41,7 @@ public class Controller2D implements Controller {
         rasterizer = new LineRasterizerGraphics(raster);
         polyRasterizer = new PolygonRasterizer(raster);
         polygon = new Polygon();
+        clipPolygon = new Polygon();
      }
 
      public void initInputs() {
@@ -57,9 +62,17 @@ public class Controller2D implements Controller {
     };
 
 
-
     @Override
     public void initListeners(Panel panel) {
+
+        window.getButtonClip().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                clip();
+            }
+        });
+
+
         panel.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -73,13 +86,11 @@ public class Controller2D implements Controller {
                     if (window.getRadioNewPoly().isSelected()) {
                         polygon.points.add(new Point(e.getX(),e.getY()));
                         update();
-                        polyRasterizer.drawPolygon(polygon);
-                    } else if(window.getRadioFill().isSelected()) {
 
+                    } else if(window.getRadioFill().isSelected()) {
 
                         seedFill.setSeed(new Point(e.getX(),e.getY()));
                         seedFill.fill();
-
 
 
                         /*
@@ -88,6 +99,9 @@ public class Controller2D implements Controller {
 
                          */
 
+                    } else if(window.getRadioClip().isSelected()) {
+                        clipPolygon.points.add(new Point(e.getX(),e.getY()));
+                        update();
                     }
 
 
@@ -125,7 +139,7 @@ public class Controller2D implements Controller {
                 } else if (SwingUtilities.isMiddleMouseButton(e)) {
                     //TODO
                 }
-                update();
+                //update();
             }
         });
 
@@ -142,11 +156,23 @@ public class Controller2D implements Controller {
 
     private void update() {
         panel.clear();
+        polyRasterizer.drawPolygon(polygon,Color.WHITE);
+        polyRasterizer.drawPolygon(clipPolygon, Color.CYAN);
     }
 
     private void hardClear() {
         panel.clear();
         polygon = new Polygon();
+        clipPolygon = new Polygon();
+    }
+
+    private void clip() {
+
+        polygon = Clipper.clip(polygon,clipPolygon);
+        ScanLine sl = new ScanLine(polygon,rasterizer,0xffff00,0xff0000);
+        sl.fill();
+
+
     }
 
 }

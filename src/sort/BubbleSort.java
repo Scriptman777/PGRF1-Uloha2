@@ -8,6 +8,12 @@ public class BubbleSort {
 
     public static List<Point> sortPointsByX(List<Point> list) {
 
+
+        /*
+        Pro seřazení jsem použil upravenou verzi algoritmu BubbleSort.
+        Nahrazením jednoho for cyklu while cyklem nemusíme řešit kontrolu seřazenosti. Pokud nebyly vyměněny žádné prvky, je seznam seřazen.
+         */
+
         boolean sorted = false;
         Point temp;
 
@@ -26,22 +32,7 @@ public class BubbleSort {
         return list;
 
 
-/*
-        int n = list.size();
-        for (int i = 0; i < n-1; i++) {
-            for (int j = 0; j < n-i-1; j++) {
-                if (list.get(j).x > list.get(j+1).x)
-                {
-                    // swap arr[j+1] and arr[j]
-                    Point temp = list.get(j);
-                    list.set(j,list.get(j+1));
-                    list.set(j+1,temp);
-                }
-            }
-        }
-        return list;
 
-*/
 
 
 

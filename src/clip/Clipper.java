@@ -1,8 +1,10 @@
 package clip;
 
 import model.Line;
+import model.Point;
 import model.Polygon;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Clipper {
@@ -24,13 +26,20 @@ public class Clipper {
         if (clipPoly.points.size()<=2){
             return inPoly;
         }
-        List<Line> clipLines = null; //TODO: Fill
+        List<Line> clipLines = new ArrayList<>();
+        for (int i = 0; i < clipPoly.points.size()-1; i++) {
+            clipLines.add(new Line(clipPoly.points.get(i),clipPoly.points.get(i+1),0));
+
+        }
+        clipLines.add(new Line(clipPoly.points.get(0),clipPoly.getLastPoint(),0));
 
 
 
 
 
-//TODO todoooo
+
+
+        //TODO todoooo
 
 
 

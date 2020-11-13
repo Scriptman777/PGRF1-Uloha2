@@ -4,6 +4,7 @@ import model.Line;
 import model.Point;
 import model.Polygon;
 
+import java.awt.*;
 import java.util.List;
 
 public class PolygonRasterizer {
@@ -15,12 +16,13 @@ public class PolygonRasterizer {
     }
 
     //Vykreslí čáry ze kterých se polygon skládá
-    public void drawPolygon(Polygon poly) {
+    public void drawPolygon(Polygon poly, Color color) {
         //Kontrola, že polygon má dostatek bodů
         if (poly.points.size() > 1)
         {
             Point first = poly.points.get(0);
             LineRasterizerGraphics fll = new LineRasterizerGraphics(raster);
+            fll.setColor(color);
 
 
             for (int i = 1; i < poly.points.size(); i++) {

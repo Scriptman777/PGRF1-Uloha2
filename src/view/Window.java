@@ -9,6 +9,9 @@ public class Window extends JFrame {
     private final JPanel menuPoly;
     private final JRadioButton radioNewPoly;
     private final JRadioButton radioFill;
+    private final JRadioButton radioClip;
+    private final JButton btnClip;
+
 
     public Window() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -23,10 +26,16 @@ public class Window extends JFrame {
         menuPoly.add(radioNewPoly);
         radioFill = new JRadioButton("Fill");
         menuPoly.add(radioFill);
+        radioClip = new JRadioButton("Clip Polygon");
+        menuPoly.add(radioClip);
+        btnClip = new JButton("Clip!");
+        menuPoly.add(btnClip);
+
 
         ButtonGroup bg = new ButtonGroup();
         bg.add(radioNewPoly);
         bg.add(radioFill);
+        bg.add(radioClip);
 
 
 
@@ -55,6 +64,12 @@ public class Window extends JFrame {
 
     public JRadioButton getRadioNewPoly() { return radioNewPoly; }
 
+    public JRadioButton getRadioClip() { return radioClip; }
+
+    public JButton getButtonClip() { return btnClip; }
+
     public JPanel getMenuPoly() { return menuPoly; }
+
+
 
 }
