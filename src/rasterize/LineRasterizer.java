@@ -21,11 +21,9 @@ public abstract class LineRasterizer {
     }
 
     public void rasterize(Line line) {
-        //TODO
     }
 
     public void rasterize(int x1, int y1, int x2, int y2, Color color) {
-        //TODO
     }
 
     protected void drawLine(int x1, int y1, int x2, int y2) {
