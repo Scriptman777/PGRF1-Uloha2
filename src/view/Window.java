@@ -10,7 +10,10 @@ public class Window extends JFrame {
     private final JRadioButton radioNewPoly;
     private final JRadioButton radioFill;
     private final JRadioButton radioClip;
+    private final JRadioButton radioPattern;
+    private final JRadioButton radioPattern2;
     private final JButton btnClip;
+
 
 
     public Window() {
@@ -26,6 +29,10 @@ public class Window extends JFrame {
         menuPoly.add(radioNewPoly);
         radioFill = new JRadioButton("Fill");
         menuPoly.add(radioFill);
+        radioPattern = new JRadioButton("Pattern Fill");
+        menuPoly.add(radioPattern);
+        radioPattern2 = new JRadioButton("Pattern Fill 2");
+        menuPoly.add(radioPattern2);
         radioClip = new JRadioButton("Clip Polygon");
         menuPoly.add(radioClip);
         btnClip = new JButton("Clip!");
@@ -36,6 +43,8 @@ public class Window extends JFrame {
         bg.add(radioNewPoly);
         bg.add(radioFill);
         bg.add(radioClip);
+        bg.add(radioPattern);
+        bg.add(radioPattern2);
 
 
 
@@ -67,6 +76,10 @@ public class Window extends JFrame {
     public JRadioButton getRadioClip() { return radioClip; }
 
     public JButton getButtonClip() { return btnClip; }
+
+    public JRadioButton getRadioPattern () {return radioPattern; }
+
+    public JRadioButton getRadioPattern2 () {return radioPattern2; }
 
     public JPanel getMenuPoly() { return menuPoly; }
 

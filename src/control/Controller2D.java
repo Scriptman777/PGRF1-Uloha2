@@ -1,9 +1,7 @@
 package control;
 
 import clip.Clipper;
-import fill.ScanLine;
-import fill.SeedFill;
-import fill.SeedFillBorder;
+import fill.*;
 import model.Point;
 import model.Polygon;
 import rasterize.*;
@@ -19,6 +17,7 @@ public class Controller2D implements Controller {
     private final Panel panel;
     private final Window window;
     private SeedFill seedFill;
+    private SeedFillPattern seedFillPattern;
 
     private Polygon polygon;
     private Polygon clipPolygon;
@@ -42,6 +41,7 @@ public class Controller2D implements Controller {
         polyRasterizer = new PolygonRasterizer(raster);
         polygon = new Polygon();
         clipPolygon = new Polygon();
+        seedFillPattern= new SeedFillPattern(raster);
      }
 
      public void initInputs() {
@@ -92,17 +92,21 @@ public class Controller2D implements Controller {
                         seedFill.setSeed(new Point(e.getX(),e.getY()));
                         seedFill.fill();
 
-
-                        /*
-                        ScanLine sl = new ScanLine(polygon,rasterizer,0xffff00,0xffffff);
-                        sl.fill();
-
-                         */
-
                     } else if(window.getRadioClip().isSelected()) {
                         clipPolygon.points.add(new Point(e.getX(),e.getY()));
                         update();
                     }
+                    else if(window.getRadioPattern().isSelected()) {
+                        seedFillPattern.setSeed(new Point(e.getX(),e.getY()));
+                        seedFillPattern.setPattern(new PatternFillDots());
+                        seedFillPattern.fill();
+                    }
+                    else if(window.getRadioPattern2().isSelected()) {
+                        seedFillPattern.setSeed(new Point(e.getX(),e.getY()));
+                        seedFillPattern.setPattern(new PatternFillLines());
+                        seedFillPattern.fill();
+                    }
+
 
 
 
@@ -169,8 +173,12 @@ public class Controller2D implements Controller {
     private void clip() {
 
         polygon = Clipper.clip(polygon,clipPolygon);
-        ScanLine sl = new ScanLine(polygon,rasterizer,0xffff00,0xff0000);
-        sl.fill();
+        //Podmínka pro případ, že ořezávaný polygon má včechny body mimo ořezávací polygon a vytvoří se prázdný
+        if (polygon.points.size() > 2) {
+            ScanLine sl = new ScanLine(polygon,rasterizer,0xffff00,0xff0000);
+            sl.fill();
+        }
+
 
 
     }

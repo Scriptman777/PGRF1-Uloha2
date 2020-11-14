@@ -31,40 +31,38 @@ public class Clipper {
         }
 
 
-
+            //Algoritmus na nalezení bodů nového polygonu dle přednášky (Sutherland-Hodgman)
+            //Pokud přímka prochází ořezávacím polygonem, ale její body jsou mimo tento polygon, je ignorována. Nepodařilo se mi najít tyto body ve správném pořadí.
             for (Point p2:inPoly.points) {
                 if (isInside(clipLines,p1) && isInside(clipLines,p2)) {
                     outpoly.points.add(p2);
                 }
                 else if (isInside(clipLines,p1) && !isInside(clipLines,p2)) {
                     for (Line ln: clipLines) {
-                        temp = findIntersection(ln,p1,p2,false);
+                        temp = findIntersection(ln,p1,p2);
                         if(temp != null) {outpoly.points.add(temp);}
                     }
                 }
                 else if (!isInside(clipLines,p1) && isInside(clipLines,p2)) {
                     for (Line ln: clipLines) {
-                        temp = findIntersection(ln,p1,p2,true);
+                        temp = findIntersection(ln,p1,p2);
                         if(temp != null) {outpoly.points.add(temp);}
                     }
                     outpoly.points.add(p2);
                 }
+
                 p1 = p2;
             }
 
 
 
 
-
-        //TODO todoooo
-
-
         return outpoly;
     }
 
     private static boolean isInside(List<Line> lines, Point p) {
+        //Algoritmus je založen na části ScanLine. Zjišťuje, jestli je bod mezi lichým a sudým průsečíkem. Pokud ano, víme, že je uvnitř polygonu.
         int y = p.y;
-
 
         boolean out = false;
         List<Integer> intersections = new ArrayList<>();
@@ -84,14 +82,10 @@ public class Clipper {
         return out;
     }
 
-    private static Point findIntersection(Line ln1, Point p3, Point p4, boolean goingIn) {
+    private static Point findIntersection(Line ln1, Point p3, Point p4) {
+        //Funkce nachází průsečík dvou čar, jedna je dána Line z ořezávacího polygonu, druhá dvěma body z ořezávaného polygonu. Podmínka na konci (0<t<1) zajišťuje, že bod se nachází na úsečce ořezávaného polygonu
         double x1,x2,x3,x4,y1,y2,y3,y4;
-        /*
-        x1 = ln1.getX1(); y1 = ln1.getY1();
-        x2 = ln1.getX2(); y2 = ln1.getY2();
-        x3 = p3.x; y3 = p3.y;
-        x4 = p4.x; y4 = p4.y;
-        */
+
         x3 = ln1.getX1(); y3 = ln1.getY1();
         x4 = ln1.getX2(); y4 = ln1.getY2();
         x1 = p3.x; y1 = p3.y;
@@ -99,10 +93,8 @@ public class Clipper {
 
 
         double tTop = (x1-x3)*(y3-y4)-(y1-y3)*(x3-x4);
-        double uTop = (x1-x2)*(y1-y3)-(y1-y2)*(x1-x4);
         double bottom = (x1-x2)*(y3-y4)-(y1-y2)*(x3-x4);
         double t = (tTop)/(bottom);
-        double u = -(uTop)/(bottom);
 
         int newX = (int) (x1+t*(x2-x1));
         int newY = (int) (y1+t*(y2-y1));
@@ -111,10 +103,9 @@ public class Clipper {
 
         if (0 < t && t < 1) {
             return new Point(newX,newY);
-            //return new Point((int)(x3+u*(x4-x3)),(int)(y3+u*(y4-y3)));
         }
 
-
+        //Vím, že vracet null není dobrý nápad kvůli vyjímkám, ale tato funkce je vždy volána z bloku, který kontroluje, jestli byl průsečík nalezen.
         return null;
 
 
