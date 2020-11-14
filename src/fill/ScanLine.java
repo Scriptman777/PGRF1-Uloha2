@@ -32,9 +32,8 @@ public class ScanLine implements Filler {
 
     @Override
     public void fill() {
+        //V teorii zbytečné volání další funkce, chtěl jsem však zachovat kód ze cvičení.
         process();
-
-
 
     }
 

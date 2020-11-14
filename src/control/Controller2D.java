@@ -22,7 +22,6 @@ public class Controller2D implements Controller {
     private Polygon polygon;
     private Polygon clipPolygon;
 
-    private int x,y;
     private LineRasterizerGraphics rasterizer;
     private PolygonRasterizer polyRasterizer;
 
@@ -80,7 +79,7 @@ public class Controller2D implements Controller {
                 if (e.isControlDown()) return;
 
                 if (e.isShiftDown()) {
-                    //TODO
+
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
 
                     if (window.getRadioNewPoly().isSelected()) {
@@ -110,42 +109,11 @@ public class Controller2D implements Controller {
 
 
 
-                } else if (SwingUtilities.isMiddleMouseButton(e)) {
-                    //TODO
-                } else if (SwingUtilities.isRightMouseButton(e)) {
-
-                }
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.isControlDown()) {
-                    if (SwingUtilities.isLeftMouseButton(e)) {
-                        //TODO
-                    } else if (SwingUtilities.isRightMouseButton(e)) {
-                        //TODO
-                    }
                 }
             }
         });
 
-        panel.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                if (e.isControlDown()) return;
 
-                if (e.isShiftDown()) {
-                    //TODO
-                } else if (SwingUtilities.isLeftMouseButton(e)) {
-                    //TODO
-                } else if (SwingUtilities.isRightMouseButton(e)) {
-                    //TODO
-                } else if (SwingUtilities.isMiddleMouseButton(e)) {
-                    //TODO
-                }
-                //update();
-            }
-        });
 
 
 

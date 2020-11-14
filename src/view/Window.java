@@ -29,9 +29,9 @@ public class Window extends JFrame {
         menuPoly.add(radioNewPoly);
         radioFill = new JRadioButton("Fill");
         menuPoly.add(radioFill);
-        radioPattern = new JRadioButton("Pattern Fill");
+        radioPattern = new JRadioButton("Pattern - Dots");
         menuPoly.add(radioPattern);
-        radioPattern2 = new JRadioButton("Pattern Fill 2");
+        radioPattern2 = new JRadioButton("Pattern - Lines");
         menuPoly.add(radioPattern2);
         radioClip = new JRadioButton("Clip Polygon");
         menuPoly.add(radioClip);
@@ -81,7 +81,6 @@ public class Window extends JFrame {
 
     public JRadioButton getRadioPattern2 () {return radioPattern2; }
 
-    public JPanel getMenuPoly() { return menuPoly; }
 
 
 

@@ -12,6 +12,7 @@ public class BubbleSort {
         /*
         Pro seřazení jsem použil upravenou verzi algoritmu BubbleSort.
         Nahrazením jednoho for cyklu while cyklem nemusíme řešit kontrolu seřazenosti. Pokud nebyly vyměněny žádné prvky, je seznam seřazen.
+        Třída umí třídit body podle souřadnice x (pro ScanLine) a int hodnoty.
          */
 
         boolean sorted = false;

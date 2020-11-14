@@ -31,8 +31,11 @@ public class Clipper {
         }
 
 
-            //Algoritmus na nalezení bodů nového polygonu dle přednášky (Sutherland-Hodgman)
-            //Pokud přímka prochází ořezávacím polygonem, ale její body jsou mimo tento polygon, je ignorována. Nepodařilo se mi najít tyto body ve správném pořadí.
+            /*
+            Algoritmus na nalezení bodů nového polygonu dle přednášky (Sutherland-Hodgman)
+            Pokud přímka prochází ořezávacím polygonem, ale její body jsou mimo tento polygon, je ignorována. Nepodařilo se mi najít tyto body ve správném pořadí.
+            V některých přípdech nový polygon nesouhlasí o několik pixelů, kvůli nepřesnosti přetypování double na int.
+             */
             for (Point p2:inPoly.points) {
                 if (isInside(clipLines,p1) && isInside(clipLines,p2)) {
                     outpoly.points.add(p2);
